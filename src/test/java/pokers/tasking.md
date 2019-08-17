@@ -130,3 +130,10 @@
 （3H_3C_3D_3S_6C） ，（5C_5S_5D_5H_2D）
 （2 player win）
 `
+
+### 20.player1 同花顺，player2 有四条
+##### should_return_player1_win_when_player1_is_3H_4H_5H_6H_7H_and_player2_is_9C_9S_9D_9H_AD
+`
+（3H_4H_5H_6H_7H） ，（9C_9S_9D_9H_AD）
+（1 player win）
+`

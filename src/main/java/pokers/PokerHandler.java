@@ -47,8 +47,30 @@ public class PokerHandler {
         int player2FlushHouseKey = 0;
         int player1FourKindKey = 0;
         int player2FourKindKey = 0;
+        int player1StraightFlushKey = 0;
+        int player2StraightFlushKey = 0;
         Set setFormatPlayer1 = mapFormatPlayer1.keySet();
         Set setFormatPlayer2 = mapFormatPlayer2.keySet();
+
+        // Straight flush
+        if (isContinusList(formatPlayer1) && isFlushList(player1)) {
+            player1StraightFlushKey = formatPlayer1.get(0);
+        }
+        if (isContinusList(formatPlayer2) && isFlushList(player2)) {
+            player2StraightFlushKey = formatPlayer2.get(0);
+        }
+
+        if (player1StraightFlushKey > player2StraightFlushKey) {
+            winner = player1;
+        } else if (player1StraightFlushKey < player2StraightFlushKey) {
+            winner = player2;
+        }
+
+        if(winner != null) {
+            return winner;
+        }
+
+
 
         // Full House or Four of kind
         if (mapFormatPlayer1.size() == 2) {
