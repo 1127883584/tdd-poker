@@ -39,3 +39,10 @@
 （2H_2C_7H_8S_AH） ，（5D_5C_7C_8C_TD）
 （2 player win）
 `
+
+##### player1 跟 player2有同样的对子， 比单个最大的牌
+### should_return_player1_win_when_player1_is_5H_5S_7H_8S_AH_and_player2_is_5D_5C_7C_8C_TD
+`
+（5H_5S_7H_8S_AH） ，（5D_5C_7C_8C_TD）
+（1 player win）
+`
