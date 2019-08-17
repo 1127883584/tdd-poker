@@ -16,8 +16,8 @@ public class PokerHandler {
         hashMap.put(formatPlayer2, player2);
 
         for(int i = 0; i < 5; i ++) {
-            formatPlayer1.add(player1.get(i).formatToNumber());
-            formatPlayer2.add(player2.get(i).formatToNumber());
+            formatPlayer1.add(player1.get(i).getNumber());
+            formatPlayer2.add(player2.get(i).getNumber());
         }
         Collections.sort(formatPlayer1, new Comparator<Integer>() {
             @Override
@@ -41,9 +41,28 @@ public class PokerHandler {
         int player2ThreeKey = 0;
         int player1StraightKey = 0;
         int player2StraightKey = 0;
+        int player1FlushKey = 0;
+        int player2FlushKey = 0;
         Set setFormatPlayer1 = mapFormatPlayer1.keySet();
         Set setFormatPlayer2 = mapFormatPlayer2.keySet();
 
+        // Flush
+        if (isFlushList(player1)) {
+            player1FlushKey = formatPlayer1.get(0);
+        }
+        if (isFlushList(player2)) {
+            player2FlushKey = formatPlayer2.get(0);
+        }
+
+        if (player1FlushKey > player2FlushKey) {
+            winner = player1;
+        } else if (player1FlushKey < player2FlushKey) {
+            winner = player2;
+        }
+
+        if(winner != null) {
+            return winner;
+        }
 
         // Straight
         if (isContinusList(formatPlayer1)) {
@@ -181,6 +200,15 @@ public class PokerHandler {
             return true;
         }
         return false;
+    }
 
+    static boolean isFlushList(List<Poker> player) {
+        int color = player.get(0).getColor();
+        for (int i = 1; i < player.size(); i ++) {
+            if (color != player.get(i).getColor()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

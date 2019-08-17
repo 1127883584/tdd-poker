@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Poker {
-    private String str;
+    private int number;
     private int color;
     private HashMap<String, Integer> hashMap = new HashMap<String, Integer>(){
         {
@@ -15,12 +15,25 @@ public class Poker {
             put("A", 14);
         }
     };
+    private HashMap<String, Integer> hashMapColor = new HashMap<String, Integer>(){
+        {
+            put("C", 1);
+            put("D", 2);
+            put("H", 3);
+            put("S", 4);
+        }
+    };
 
     public Poker(String str) {
-        this.str = str;
+        this.number = hashMap.get(str.charAt(0) + "") == null ? Integer.parseInt(str.charAt(0) + "") : hashMap.get(str.charAt(0) + "");
+        this.color = hashMapColor.get(str.charAt(1) + "");
     }
 
-    public int formatToNumber(){
-        return hashMap.get(this.str.charAt(0) + "") == null ? Integer.parseInt(this.str.charAt(0) + "") : hashMap.get(this.str.charAt(0) + "");
+    public int getNumber() {
+        return number;
+    }
+
+    public int getColor() {
+        return color;
     }
 }
