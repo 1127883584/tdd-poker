@@ -49,4 +49,18 @@ public class PokerTest {
         //Then
         Assert.assertEquals(player1, winner);
     }
+
+    @Test
+    public void should_return_null_when_player1_is_2H_5C_7H_8S_AH_and_player2_is_2D_5D_7C_8C_AD(){
+        //Given
+        List player1 = Arrays.asList(new Poker("2H"), new Poker("5C"), new Poker("7H"), new Poker("8S"), new Poker("AH"));
+        List player2 = Arrays.asList(new Poker("2D"), new Poker("5D"), new Poker("7C"), new Poker("8C"), new Poker("AD"));
+
+        //When
+        PokerHandler pokerHandler = new PokerHandler();
+        List winner = pokerHandler.handle(player1, player2);
+
+        //Then
+        Assert.assertEquals(null, winner);
+    }
 }

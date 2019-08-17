@@ -19,5 +19,11 @@
 （1 player win）
 `
 
+##### 牌中有特殊编码的牌(T,J,Q,K,A)
+### should_return_null_when_player1_is_2H_5C_7H_8S_AH_and_player2_is_2D_5D_7C_8C_AD
+`
+（2H_5C_7H_8S_AH） ，（2D_5D_7C_8C_AD）
+（null）
+`
 
 
