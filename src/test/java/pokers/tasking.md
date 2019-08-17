@@ -60,3 +60,11 @@
 （9H_9C_7H_8S_AH） ，（7C_7S_5D_5C_TD）
 （2 player win）
 `
+
+##### player1 有1个比较小和1个比较大的对子，player2有两个中等大小的对子
+### should_return_player1_win_when_player1_is_2H_2C_9H_9S_5H_and_player2_is_7C_7S_5D_5C_TD
+`
+（2H_2C_9H_9S_5H） ，（7C_7S_5D_5C_TD）
+（1 player win）
+`
+

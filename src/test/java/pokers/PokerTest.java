@@ -119,4 +119,18 @@ public class PokerTest {
         //Then
         Assert.assertEquals(player2, winner);
     }
+
+    @Test
+    public void should_return_player1_win_when_player1_is_2H_2C_9H_9S_5H_and_player2_is_7C_7S_5D_5C_TD(){
+        //Given
+        List player1 = Arrays.asList(new Poker("2H"), new Poker("2C"), new Poker("9H"), new Poker("9S"), new Poker("5H"));
+        List player2 = Arrays.asList(new Poker("7C"), new Poker("7S"), new Poker("5D"), new Poker("5C"), new Poker("TD"));
+
+        //When
+        PokerHandler pokerHandler = new PokerHandler();
+        List winner = pokerHandler.handle(player1, player2);
+
+        //Then
+        Assert.assertEquals(player1, winner);
+    }
 }
