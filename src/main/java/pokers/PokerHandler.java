@@ -7,8 +7,10 @@ public class PokerHandler {
         List<Integer> formatPlayer1 = new ArrayList<>();
         List<Integer> formatPlayer2 = new ArrayList<>();
         HashMap<List<Integer>, List<Poker>> hashMap = new HashMap<>();
+
         hashMap.put(formatPlayer1, player1);
         hashMap.put(formatPlayer2, player2);
+
         for(int i = 0; i < 5; i ++) {
             formatPlayer1.add(player1.get(i).formatToNumber());
             formatPlayer2.add(player2.get(i).formatToNumber());
