@@ -33,3 +33,9 @@
 （1 player win）
 `
 
+##### player1有对子，player2有对子
+### should_return_player2_win_when_player1_is_2H_2C_7H_8S_AH_and_player2_is_5D_5C_7C_8C_TD
+`
+（2H_2C_7H_8S_AH） ，（5D_5C_7C_8C_TD）
+（2 player win）
+`

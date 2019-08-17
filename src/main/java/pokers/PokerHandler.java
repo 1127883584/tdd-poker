@@ -34,20 +34,36 @@ public class PokerHandler {
 
 
         Map<Integer, Long> mapFormatPlayer1 = formatPlayer1.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
-        Map<Integer, Long> mapFormatPlayer2 = formatPlayer1.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
+        Map<Integer, Long> mapFormatPlayer2 = formatPlayer2.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
+        int player1PairKey = 0;
+        int player2PairKey = 0;
+        Set setFormatPlayer1 = mapFormatPlayer1.keySet();
+        Set setFormatPlayer2 = mapFormatPlayer2.keySet();
 
-        for (Long v : mapFormatPlayer1.values()) {
-            if (v > 1) {
-                winner = player1;
+        for(Iterator iter = setFormatPlayer1.iterator(); iter.hasNext();)
+        {
+            int key = Integer.parseInt(iter.next().toString());
+            long value = mapFormatPlayer1.get(key);
+            if (value > 1) {
+                player1PairKey = key;
                 break;
             }
         }
 
-        for (Long v : mapFormatPlayer2.values()) {
-            if (v > 1 && winner == null) {
-                winner = player2;
+        for(Iterator iter = setFormatPlayer2.iterator(); iter.hasNext();)
+        {
+            int key = Integer.parseInt(iter.next().toString());
+            long value = mapFormatPlayer2.get(key);
+            if (value > 1) {
+                player2PairKey = key;
                 break;
             }
+        }
+
+        if (player1PairKey > player2PairKey) {
+            winner = player1;
+        } else if (player1PairKey < player2PairKey) {
+            winner = player2;
         }
 
         if(winner != null) {
