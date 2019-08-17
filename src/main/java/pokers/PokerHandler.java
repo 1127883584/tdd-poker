@@ -37,16 +37,22 @@ public class PokerHandler {
         Map<Integer, Long> mapFormatPlayer2 = formatPlayer2.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
         int player1PairKey = 0;
         int player2PairKey = 0;
+        int player1ThreeKey = 0;
+        int player2ThreeKey = 0;
         Set setFormatPlayer1 = mapFormatPlayer1.keySet();
         Set setFormatPlayer2 = mapFormatPlayer2.keySet();
 
-        // Two Pair
+
+        // Two Pair or Three of a Kind
         if (mapFormatPlayer1.size() == 3) {
             for(Iterator iter = setFormatPlayer1.iterator(); iter.hasNext();)
             {
                 int key = Integer.parseInt(iter.next().toString());
                 long value = mapFormatPlayer1.get(key);
-                if (value > 1) {
+                if (value == 3) {
+                    player1ThreeKey = key;
+                }
+                if (value == 2) {
                     player1PairKey = key;
                 }
             }
@@ -57,10 +63,23 @@ public class PokerHandler {
             {
                 int key = Integer.parseInt(iter.next().toString());
                 long value = mapFormatPlayer2.get(key);
-                if (value > 1) {
+                if (value == 3) {
+                    player2ThreeKey = key;
+                }
+                if (value == 2) {
                     player2PairKey = key;
                 }
             }
+        }
+
+        if (player1ThreeKey > player2ThreeKey) {
+            winner = player1;
+        } else if (player1ThreeKey < player2ThreeKey) {
+            winner = player2;
+        }
+
+        if(winner != null) {
+            return winner;
         }
 
         if (player1PairKey > player2PairKey) {
@@ -80,7 +99,7 @@ public class PokerHandler {
             {
                 int key = Integer.parseInt(iter.next().toString());
                 long value = mapFormatPlayer1.get(key);
-                if (value > 1) {
+                if (value == 2) {
                     player1PairKey = key;
                     break;
                 }
@@ -91,7 +110,7 @@ public class PokerHandler {
             for (Iterator iter = setFormatPlayer2.iterator(); iter.hasNext(); ) {
                 int key = Integer.parseInt(iter.next().toString());
                 long value = mapFormatPlayer2.get(key);
-                if (value > 1) {
+                if (value == 2) {
                     player2PairKey = key;
                     break;
                 }
