@@ -74,3 +74,10 @@
 （2H_2C_9H_9S_AH） ，（7C_7S_7D_5C_TD）
 （2 player win）
 `
+
+### 12.player1 有普通的顺子，player2有3个相同的牌
+##### should_return_player1_win_when_player1_is_3H_4C_5H_6S_7H_and_player2_is_7C_7S_7D_5C_TD
+`
+（3H_4C_5H_6S_7H） ，（7C_7S_7D_5C_TD）
+（1 player win）
+`

@@ -39,8 +39,30 @@ public class PokerHandler {
         int player2PairKey = 0;
         int player1ThreeKey = 0;
         int player2ThreeKey = 0;
+        int player1StraightKey = 0;
+        int player2StraightKey = 0;
         Set setFormatPlayer1 = mapFormatPlayer1.keySet();
         Set setFormatPlayer2 = mapFormatPlayer2.keySet();
+
+
+        // Straight
+        if (isContinusList(formatPlayer1)) {
+            player1StraightKey = formatPlayer1.get(0);
+        }
+        if (isContinusList(formatPlayer2)) {
+            player2StraightKey = formatPlayer2.get(0);
+        }
+
+        if (player1StraightKey > player2StraightKey) {
+            winner = player1;
+        } else if (player1StraightKey < player2StraightKey) {
+            winner = player2;
+        }
+
+        if(winner != null) {
+            return winner;
+        }
+
 
 
         // Two Pair or Three of a Kind
@@ -138,7 +160,27 @@ public class PokerHandler {
         }
 
 
-
         return winner;
+    }
+
+    static boolean isContinusList(List<Integer> list) {
+        Integer[] a= new Integer[list.size()];
+        list.toArray(a);
+        int min = a[0];
+        int max = a[0];
+        for(int i = 1; i < a.length; i++) {
+            if(a[i] < min && a[i] !=0 ) {
+                min = a[i];
+            }
+            if(a[i] > max && a[i] != 0) {
+                max = a[i];
+            }
+        }
+
+        if((max - min) <= a.length-1 ) {
+            return true;
+        }
+        return false;
+
     }
 }
