@@ -40,23 +40,26 @@ public class PokerHandler {
         Set setFormatPlayer1 = mapFormatPlayer1.keySet();
         Set setFormatPlayer2 = mapFormatPlayer2.keySet();
 
-        for(Iterator iter = setFormatPlayer1.iterator(); iter.hasNext();)
-        {
-            int key = Integer.parseInt(iter.next().toString());
-            long value = mapFormatPlayer1.get(key);
-            if (value > 1) {
-                player1PairKey = key;
-                break;
+        // Two Pair
+        if (mapFormatPlayer1.size() == 3) {
+            for(Iterator iter = setFormatPlayer1.iterator(); iter.hasNext();)
+            {
+                int key = Integer.parseInt(iter.next().toString());
+                long value = mapFormatPlayer1.get(key);
+                if (value > 1) {
+                    player1PairKey = key;
+                }
             }
         }
 
-        for(Iterator iter = setFormatPlayer2.iterator(); iter.hasNext();)
-        {
-            int key = Integer.parseInt(iter.next().toString());
-            long value = mapFormatPlayer2.get(key);
-            if (value > 1) {
-                player2PairKey = key;
-                break;
+        if (mapFormatPlayer2.size() == 3) {
+            for(Iterator iter = setFormatPlayer2.iterator(); iter.hasNext();)
+            {
+                int key = Integer.parseInt(iter.next().toString());
+                long value = mapFormatPlayer2.get(key);
+                if (value > 1) {
+                    player2PairKey = key;
+                }
             }
         }
 
@@ -70,6 +73,43 @@ public class PokerHandler {
             return winner;
         }
 
+
+        // Pair
+        if (mapFormatPlayer1.size() == 4) {
+            for(Iterator iter = setFormatPlayer1.iterator(); iter.hasNext();)
+            {
+                int key = Integer.parseInt(iter.next().toString());
+                long value = mapFormatPlayer1.get(key);
+                if (value > 1) {
+                    player1PairKey = key;
+                    break;
+                }
+            }
+        }
+
+        if (mapFormatPlayer2.size() == 4) {
+            for (Iterator iter = setFormatPlayer2.iterator(); iter.hasNext(); ) {
+                int key = Integer.parseInt(iter.next().toString());
+                long value = mapFormatPlayer2.get(key);
+                if (value > 1) {
+                    player2PairKey = key;
+                    break;
+                }
+            }
+        }
+
+        if (player1PairKey > player2PairKey) {
+            winner = player1;
+        } else if (player1PairKey < player2PairKey) {
+            winner = player2;
+        }
+
+        if(winner != null) {
+            return winner;
+        }
+
+
+        // High Card
         for(int i = 0; i < 5; i ++) {
             if (formatPlayer1.get(i) > formatPlayer2.get(i)) {
                 return player1;
@@ -77,6 +117,8 @@ public class PokerHandler {
                 return player2;
             }
         }
+
+
 
         return winner;
     }
