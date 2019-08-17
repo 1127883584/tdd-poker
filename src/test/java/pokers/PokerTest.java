@@ -1,0 +1,24 @@
+package pokers;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class PokerTest {
+
+    @Test
+    public void should_return_player1_win_when_player1_is_2H_3C_7H_8S_9H_and_player2_is_3H_5C_6H_7S_8H(){
+        //Given
+        List player1 = Arrays.asList(new Poker("2H"), new Poker("3C"), new Poker("7H"), new Poker("8S"), new Poker("9H"));
+        List player2 = Arrays.asList(new Poker("3H"), new Poker("5C"), new Poker("6H"), new Poker("7S"), new Poker("8H"));
+
+        //When
+        PokerHandler pokerHandler = new PokerHandler();
+        List winner = pokerHandler.handle(player1, player2);
+
+        //Then
+        Assert.assertEquals(player1, winner);
+    }
+}
