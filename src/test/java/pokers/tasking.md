@@ -81,3 +81,10 @@
 （3H_4C_5H_6S_7H） ，（7C_7S_7D_5C_TD）
 （1 player win）
 `
+
+### 13.player1 有普通的顺子，player2有普通的顺子
+##### should_return_player2_win_when_player1_is_3H_4C_5H_6S_7H_and_player2_is_4C_5S_6D_7C_8D
+`
+（3H_4C_5H_6S_7H） ，（4C_5S_6D_7C_8D）
+（2 player win）
+`
