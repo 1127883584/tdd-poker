@@ -43,8 +43,43 @@ public class PokerHandler {
         int player2StraightKey = 0;
         int player1FlushKey = 0;
         int player2FlushKey = 0;
+        int player1FlushHouseKey = 0;
+        int player2FlushHouseKey = 0;
         Set setFormatPlayer1 = mapFormatPlayer1.keySet();
         Set setFormatPlayer2 = mapFormatPlayer2.keySet();
+
+        // Full House
+        if (mapFormatPlayer1.size() == 2) {
+            for(Iterator iter = setFormatPlayer1.iterator(); iter.hasNext();)
+            {
+                int key = Integer.parseInt(iter.next().toString());
+                long value = mapFormatPlayer1.get(key);
+                if (value == 3) {
+                    player1FlushHouseKey = key;
+                }
+            }
+        }
+        if (mapFormatPlayer2.size() == 2) {
+            for(Iterator iter = setFormatPlayer2.iterator(); iter.hasNext();)
+            {
+                int key = Integer.parseInt(iter.next().toString());
+                long value = mapFormatPlayer2.get(key);
+                if (value == 3) {
+                    player2FlushHouseKey = key;
+                }
+            }
+        }
+        if (player1FlushHouseKey > player2FlushHouseKey) {
+            winner = player1;
+        } else if (player1FlushHouseKey < player2FlushHouseKey) {
+            winner = player2;
+        }
+
+        if(winner != null) {
+            return winner;
+        }
+
+
 
         // Flush
         if (isFlushList(player1)) {

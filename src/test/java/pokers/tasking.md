@@ -102,3 +102,10 @@
 （2H_3H_5H_6H_7H） ，（3S_5S_6S_7S_8S）
 （2 player win）
 `
+
+### 16.player1 有俘虏，player2有同花
+##### should_return_player1_win_when_player1_is_3H_3C_3D_6H_6C_and_player2_is_3S_5S_6S_7S_8S
+`
+（3H_3C_3D_6H_6C） ，（3S_5S_6S_7S_8S）
+（1 player win）
+`
