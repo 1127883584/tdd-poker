@@ -137,3 +137,10 @@
 （3H_4H_5H_6H_7H） ，（9C_9S_9D_9H_AD）
 （1 player win）
 `
+
+### 21.player1 同花顺，player2 同花顺
+##### should_return_player2_win_when_player1_is_3H_4H_5H_6H_7H_and_player2_is_4C_5C_6C_7C_8C
+`
+（3H_4H_5H_6H_7H） ，（4C_5C_6C_7C_8C）
+（2 player win）
+`
