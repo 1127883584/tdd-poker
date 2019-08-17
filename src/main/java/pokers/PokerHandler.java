@@ -4,6 +4,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PokerHandler {
+
+    private List<Integer> levelPlayer1;
+    private List<Integer> levelPlayer2;
+
+    public PokerHandler(){
+        Integer levelArray1[] = new Integer[8];
+        Integer levelArray2[] = new Integer[8];
+        Arrays.fill(levelArray1, 0);
+        Arrays.fill(levelArray2, 0);
+        levelPlayer1 = Arrays.asList(levelArray1);
+        levelPlayer2 = Arrays.asList(levelArray2);
+    }
+
     public List<Poker> handle(List<Poker> player1, List<Poker> player2) {
         List<Poker> winner = null;
 
@@ -47,22 +60,16 @@ public class PokerHandler {
         int player2FlushHouseKey = 0;
         int player1FourKindKey = 0;
         int player2FourKindKey = 0;
-        int player1StraightFlushKey = 0;
-        int player2StraightFlushKey = 0;
         Set setFormatPlayer1 = mapFormatPlayer1.keySet();
         Set setFormatPlayer2 = mapFormatPlayer2.keySet();
 
         // Straight flush
-        if (isContinusList(formatPlayer1) && isFlushList(player1)) {
-            player1StraightFlushKey = formatPlayer1.get(0);
-        }
-        if (isContinusList(formatPlayer2) && isFlushList(player2)) {
-            player2StraightFlushKey = formatPlayer2.get(0);
-        }
+        levelPlayer1.set(0, getStraightFlushKey(formatPlayer1, player1));
+        levelPlayer2.set(0, getStraightFlushKey(formatPlayer2, player2));
 
-        if (player1StraightFlushKey > player2StraightFlushKey) {
+        if (levelPlayer1.get(0) > levelPlayer2.get(0)) {
             winner = player1;
-        } else if (player1StraightFlushKey < player2StraightFlushKey) {
+        } else if (levelPlayer1.get(0) < levelPlayer2.get(0)) {
             winner = player2;
         }
 
@@ -73,36 +80,12 @@ public class PokerHandler {
 
 
         // Full House or Four of kind
-        if (mapFormatPlayer1.size() == 2) {
-            for(Iterator iter = setFormatPlayer1.iterator(); iter.hasNext();)
-            {
-                int key = Integer.parseInt(iter.next().toString());
-                long value = mapFormatPlayer1.get(key);
-                if (value == 4) {
-                    player1FourKindKey = key;
-                }
-                if (value == 3) {
-                    player1FlushHouseKey = key;
-                }
-            }
-        }
-        if (mapFormatPlayer2.size() == 2) {
-            for(Iterator iter = setFormatPlayer2.iterator(); iter.hasNext();)
-            {
-                int key = Integer.parseInt(iter.next().toString());
-                long value = mapFormatPlayer2.get(key);
-                if (value == 4) {
-                    player2FourKindKey = key;
-                }
-                if (value == 3) {
-                    player2FlushHouseKey = key;
-                }
-            }
-        }
+        levelPlayer1.set(1, getFourOfKindKey(formatPlayer1, player1));
+        levelPlayer2.set(1, getFourOfKindKey(formatPlayer2, player2));
 
-        if (player1FourKindKey > player2FourKindKey) {
+        if (levelPlayer1.get(1) > levelPlayer2.get(1)) {
             winner = player1;
-        } else if (player1FourKindKey < player2FourKindKey) {
+        } else if (levelPlayer1.get(1) < levelPlayer2.get(1)) {
             winner = player2;
         }
 
@@ -110,29 +93,27 @@ public class PokerHandler {
             return winner;
         }
 
-        if (player1FlushHouseKey > player2FlushHouseKey) {
+        levelPlayer1.set(2, getFullHouseKey(formatPlayer1, player1));
+        levelPlayer2.set(2, getFullHouseKey(formatPlayer2, player2));
+
+        if (levelPlayer1.get(2) > levelPlayer2.get(2)) {
             winner = player1;
-        } else if (player1FlushHouseKey < player2FlushHouseKey) {
+        } else if (levelPlayer1.get(2) < levelPlayer2.get(2)) {
             winner = player2;
         }
 
         if(winner != null) {
             return winner;
         }
-
 
 
         // Flush
-        if (isFlushList(player1)) {
-            player1FlushKey = formatPlayer1.get(0);
-        }
-        if (isFlushList(player2)) {
-            player2FlushKey = formatPlayer2.get(0);
-        }
+        levelPlayer1.set(3, getFlushKey(formatPlayer1, player1));
+        levelPlayer2.set(3, getFlushKey(formatPlayer2, player2));
 
-        if (player1FlushKey > player2FlushKey) {
+        if (levelPlayer1.get(3) > levelPlayer2.get(3)) {
             winner = player1;
-        } else if (player1FlushKey < player2FlushKey) {
+        } else if (levelPlayer1.get(3) < levelPlayer2.get(3)) {
             winner = player2;
         }
 
@@ -140,17 +121,14 @@ public class PokerHandler {
             return winner;
         }
 
-        // Straight
-        if (isContinusList(formatPlayer1)) {
-            player1StraightKey = formatPlayer1.get(0);
-        }
-        if (isContinusList(formatPlayer2)) {
-            player2StraightKey = formatPlayer2.get(0);
-        }
 
-        if (player1StraightKey > player2StraightKey) {
+        // Straight
+        levelPlayer1.set(4, getStraightKey(formatPlayer1, player1));
+        levelPlayer2.set(4, getStraightKey(formatPlayer2, player2));
+
+        if (levelPlayer1.get(4) > levelPlayer2.get(4)) {
             winner = player1;
-        } else if (player1StraightKey < player2StraightKey) {
+        } else if (levelPlayer1.get(4) < levelPlayer2.get(4)) {
             winner = player2;
         }
 
@@ -161,37 +139,12 @@ public class PokerHandler {
 
 
         // Two Pair or Three of a Kind
-        if (mapFormatPlayer1.size() == 3) {
-            for(Iterator iter = setFormatPlayer1.iterator(); iter.hasNext();)
-            {
-                int key = Integer.parseInt(iter.next().toString());
-                long value = mapFormatPlayer1.get(key);
-                if (value == 3) {
-                    player1ThreeKey = key;
-                }
-                if (value == 2) {
-                    player1PairKey = key;
-                }
-            }
-        }
+        levelPlayer1.set(5, getThreeOfAKindKey(formatPlayer1, player1));
+        levelPlayer2.set(5, getThreeOfAKindKey(formatPlayer2, player2));
 
-        if (mapFormatPlayer2.size() == 3) {
-            for(Iterator iter = setFormatPlayer2.iterator(); iter.hasNext();)
-            {
-                int key = Integer.parseInt(iter.next().toString());
-                long value = mapFormatPlayer2.get(key);
-                if (value == 3) {
-                    player2ThreeKey = key;
-                }
-                if (value == 2) {
-                    player2PairKey = key;
-                }
-            }
-        }
-
-        if (player1ThreeKey > player2ThreeKey) {
+        if (levelPlayer1.get(5) > levelPlayer2.get(5)) {
             winner = player1;
-        } else if (player1ThreeKey < player2ThreeKey) {
+        } else if (levelPlayer1.get(5) < levelPlayer2.get(5)) {
             winner = player2;
         }
 
@@ -199,9 +152,12 @@ public class PokerHandler {
             return winner;
         }
 
-        if (player1PairKey > player2PairKey) {
+        levelPlayer1.set(6, getTwoPairKey(formatPlayer1, player1));
+        levelPlayer2.set(6, getTwoPairKey(formatPlayer2, player2));
+
+        if (levelPlayer1.get(6) > levelPlayer2.get(6)) {
             winner = player1;
-        } else if (player1PairKey < player2PairKey) {
+        } else if (levelPlayer1.get(6) < levelPlayer2.get(6)) {
             winner = player2;
         }
 
@@ -211,32 +167,12 @@ public class PokerHandler {
 
 
         // Pair
-        if (mapFormatPlayer1.size() == 4) {
-            for(Iterator iter = setFormatPlayer1.iterator(); iter.hasNext();)
-            {
-                int key = Integer.parseInt(iter.next().toString());
-                long value = mapFormatPlayer1.get(key);
-                if (value == 2) {
-                    player1PairKey = key;
-                    break;
-                }
-            }
-        }
+        levelPlayer1.set(7, getPairKey(formatPlayer1, player1));
+        levelPlayer2.set(7, getPairKey(formatPlayer2, player2));
 
-        if (mapFormatPlayer2.size() == 4) {
-            for (Iterator iter = setFormatPlayer2.iterator(); iter.hasNext(); ) {
-                int key = Integer.parseInt(iter.next().toString());
-                long value = mapFormatPlayer2.get(key);
-                if (value == 2) {
-                    player2PairKey = key;
-                    break;
-                }
-            }
-        }
-
-        if (player1PairKey > player2PairKey) {
+        if (levelPlayer1.get(7) > levelPlayer2.get(7)) {
             winner = player1;
-        } else if (player1PairKey < player2PairKey) {
+        } else if (levelPlayer1.get(7) < levelPlayer2.get(7)) {
             winner = player2;
         }
 
@@ -246,6 +182,113 @@ public class PokerHandler {
 
 
         // High Card
+        return getHighCard(formatPlayer1, formatPlayer2, player1, player2);
+    }
+
+    private int getStraightFlushKey(List<Integer> formatPlayer, List<Poker> player) {
+        if (isContinusList(formatPlayer) && isFlushList(player)) {
+            return formatPlayer.get(0);
+        }
+        return 0;
+    }
+
+    private int getFourOfKindKey(List<Integer> formatPlayer, List<Poker> player) {
+        Map<Integer, Long> mapFormatPlayer = formatPlayer.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
+        Set setFormatPlayer = mapFormatPlayer.keySet();
+        if (mapFormatPlayer.size() == 2) {
+            for(Iterator iter = setFormatPlayer.iterator(); iter.hasNext();)
+            {
+                int key = Integer.parseInt(iter.next().toString());
+                long value = mapFormatPlayer.get(key);
+                if (value == 4) {
+                    return key;
+                }
+            }
+        }
+        return 0;
+    }
+
+    private int getFullHouseKey(List<Integer> formatPlayer, List<Poker> player) {
+        Map<Integer, Long> mapFormatPlayer = formatPlayer.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
+        Set setFormatPlayer = mapFormatPlayer.keySet();
+        if (mapFormatPlayer.size() == 2) {
+            for(Iterator iter = setFormatPlayer.iterator(); iter.hasNext();)
+            {
+                int key = Integer.parseInt(iter.next().toString());
+                long value = mapFormatPlayer.get(key);
+                if (value == 3) {
+                    return key;
+                }
+            }
+        }
+        return 0;
+    }
+
+    private int getFlushKey(List<Integer> formatPlayer, List<Poker> player) {
+        if (isFlushList(player)) {
+            return formatPlayer.get(0);
+        }
+        return 0;
+    }
+
+    private int getStraightKey(List<Integer> formatPlayer, List<Poker> player) {
+        if (isContinusList(formatPlayer)) {
+            return formatPlayer.get(0);
+        }
+        return 0;
+    }
+
+    private int getThreeOfAKindKey(List<Integer> formatPlayer, List<Poker> player) {
+        Map<Integer, Long> mapFormatPlayer = formatPlayer.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
+        Set setFormatPlayer = mapFormatPlayer.keySet();
+        if (mapFormatPlayer.size() == 3) {
+            for(Iterator iter = setFormatPlayer.iterator(); iter.hasNext();)
+            {
+                int key = Integer.parseInt(iter.next().toString());
+                long value = mapFormatPlayer.get(key);
+                if (value == 3) {
+                    return key;
+                }
+            }
+        }
+        return 0;
+    }
+
+    private int getTwoPairKey(List<Integer> formatPlayer, List<Poker> player) {
+        int maxKey = 0;
+        Map<Integer, Long> mapFormatPlayer = formatPlayer.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
+        Set setFormatPlayer = mapFormatPlayer.keySet();
+        if (mapFormatPlayer.size() == 3) {
+            for(Iterator iter = setFormatPlayer.iterator(); iter.hasNext();)
+            {
+                int key = Integer.parseInt(iter.next().toString());
+                long value = mapFormatPlayer.get(key);
+                if (value == 2) {
+                    maxKey = key;
+                }
+            }
+        }
+        return maxKey;
+    }
+
+    private int getPairKey(List<Integer> formatPlayer, List<Poker> player) {
+        int maxKey = 0;
+        Map<Integer, Long> mapFormatPlayer = formatPlayer.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
+        Set setFormatPlayer = mapFormatPlayer.keySet();
+        if (mapFormatPlayer.size() == 4) {
+            for(Iterator iter = setFormatPlayer.iterator(); iter.hasNext();)
+            {
+                int key = Integer.parseInt(iter.next().toString());
+                long value = mapFormatPlayer.get(key);
+                if (value == 2) {
+                    maxKey = key;
+                }
+            }
+        }
+        return maxKey;
+    }
+
+    private List<Poker> getHighCard(List<Integer> formatPlayer1, List<Integer> formatPlayer2, List<Poker> player1, List<Poker> player2) {
         for(int i = 0; i < 5; i ++) {
             if (formatPlayer1.get(i) > formatPlayer2.get(i)) {
                 return player1;
@@ -253,9 +296,7 @@ public class PokerHandler {
                 return player2;
             }
         }
-
-
-        return winner;
+        return null;
     }
 
     static boolean isContinusList(List<Integer> list) {
