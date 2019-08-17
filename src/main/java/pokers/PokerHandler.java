@@ -45,15 +45,20 @@ public class PokerHandler {
         int player2FlushKey = 0;
         int player1FlushHouseKey = 0;
         int player2FlushHouseKey = 0;
+        int player1FourKindKey = 0;
+        int player2FourKindKey = 0;
         Set setFormatPlayer1 = mapFormatPlayer1.keySet();
         Set setFormatPlayer2 = mapFormatPlayer2.keySet();
 
-        // Full House
+        // Full House or Four of kind
         if (mapFormatPlayer1.size() == 2) {
             for(Iterator iter = setFormatPlayer1.iterator(); iter.hasNext();)
             {
                 int key = Integer.parseInt(iter.next().toString());
                 long value = mapFormatPlayer1.get(key);
+                if (value == 4) {
+                    player1FourKindKey = key;
+                }
                 if (value == 3) {
                     player1FlushHouseKey = key;
                 }
@@ -64,11 +69,25 @@ public class PokerHandler {
             {
                 int key = Integer.parseInt(iter.next().toString());
                 long value = mapFormatPlayer2.get(key);
+                if (value == 4) {
+                    player2FourKindKey = key;
+                }
                 if (value == 3) {
                     player2FlushHouseKey = key;
                 }
             }
         }
+
+        if (player1FourKindKey > player2FourKindKey) {
+            winner = player1;
+        } else if (player1FourKindKey < player2FourKindKey) {
+            winner = player2;
+        }
+
+        if(winner != null) {
+            return winner;
+        }
+
         if (player1FlushHouseKey > player2FlushHouseKey) {
             winner = player1;
         } else if (player1FlushHouseKey < player2FlushHouseKey) {

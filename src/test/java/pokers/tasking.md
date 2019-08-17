@@ -116,3 +116,10 @@
 （3H_3C_3D_6H_6C） ，（5C_5S_5D_4S_4D）
 （2 player win）
 `
+
+### 17.player1 有四条，player2有俘虏
+##### should_return_player1_win_when_player1_is_3H_3C_3D_3S_6C_and_player2_is_5C_5S_5D_8S_8D
+`
+（3H_3C_3D_3S_6C） ，（5C_5S_5D_4S_4D）
+（1 player win）
+`
