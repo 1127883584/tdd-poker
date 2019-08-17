@@ -1,11 +1,15 @@
 package pokers;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class PokerHandler {
     public List<Poker> handle(List<Poker> player1, List<Poker> player2) {
+        List<Poker> winner = null;
+
         List<Integer> formatPlayer1 = new ArrayList<>();
         List<Integer> formatPlayer2 = new ArrayList<>();
+
         HashMap<List<Integer>, List<Poker>> hashMap = new HashMap<>();
 
         hashMap.put(formatPlayer1, player1);
@@ -28,6 +32,28 @@ public class PokerHandler {
             }
         });
 
+
+        Map<Integer, Long> mapFormatPlayer1 = formatPlayer1.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
+        Map<Integer, Long> mapFormatPlayer2 = formatPlayer1.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
+
+        for (Long v : mapFormatPlayer1.values()) {
+            if (v > 1) {
+                winner = player1;
+                break;
+            }
+        }
+
+        for (Long v : mapFormatPlayer2.values()) {
+            if (v > 1 && winner == null) {
+                winner = player2;
+                break;
+            }
+        }
+
+        if(winner != null) {
+            return winner;
+        }
+
         for(int i = 0; i < 5; i ++) {
             if (formatPlayer1.get(i) > formatPlayer2.get(i)) {
                 return player1;
@@ -36,6 +62,6 @@ public class PokerHandler {
             }
         }
 
-        return null;
+        return winner;
     }
 }

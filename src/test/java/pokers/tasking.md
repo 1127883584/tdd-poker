@@ -26,4 +26,10 @@
 （null）
 `
 
+##### player1有对子，player2没有对子
+### should_return_player1_win_when_player1_is_2H_2C_7H_8S_TH_and_player2_is_2D_5D_7C_8C_AD
+`
+（2H_2C_7H_8S_TH） ，（2D_5D_7C_8C_AD）
+（1 player win）
+`
 

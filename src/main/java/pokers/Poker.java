@@ -21,7 +21,6 @@ public class Poker {
     }
 
     public int formatToNumber(){
-        System.out.println(hashMap.get(this.str.charAt(0) + "") == null ? Integer.parseInt(this.str.charAt(0) + "") : hashMap.get(this.str.charAt(0) + ""));
         return hashMap.get(this.str.charAt(0) + "") == null ? Integer.parseInt(this.str.charAt(0) + "") : hashMap.get(this.str.charAt(0) + "");
     }
 }
