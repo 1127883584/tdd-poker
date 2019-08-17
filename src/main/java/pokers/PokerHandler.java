@@ -36,18 +36,8 @@ public class PokerHandler {
             formatPlayer1.add(player1.get(i).getNumber());
             formatPlayer2.add(player2.get(i).getNumber());
         }
-        Collections.sort(formatPlayer1, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o2.compareTo(o1);
-            }
-        });
-        Collections.sort(formatPlayer2, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o2.compareTo(o1);
-            }
-        });
+        Collections.sort(formatPlayer1, Collections.reverseOrder());
+        Collections.sort(formatPlayer2, Collections.reverseOrder());
 
         for(int i = 0; i < utilList.size(); i ++) {
             levelPlayer1.set(i, Integer.parseInt((utilList.get(i).apply(formatPlayer1, player1)).toString()));
@@ -75,107 +65,25 @@ public class PokerHandler {
     };
 
     // Four of kind
-    BiFunction<List<Integer>, List<Poker>, Integer> getFourOfKindKey = (formatPlayer, player) -> {
-        Map<Integer, Long> mapFormatPlayer = formatPlayer.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
-        Set setFormatPlayer = mapFormatPlayer.keySet();
-        if (mapFormatPlayer.size() == 2) {
-            for(Iterator iter = setFormatPlayer.iterator(); iter.hasNext();)
-            {
-                int key = Integer.parseInt(iter.next().toString());
-                long value = mapFormatPlayer.get(key);
-                if (value == 4) {
-                    return key;
-                }
-            }
-        }
-        return 0;
-    };
+    BiFunction<List<Integer>, List<Poker>, Integer> getFourOfKindKey = (formatPlayer, player) -> getMaxKey(formatPlayer, 2, 4);
 
     // Full House
-    BiFunction<List<Integer>, List<Poker>, Integer> getFullHouseKey = (formatPlayer, player) -> {
-        Map<Integer, Long> mapFormatPlayer = formatPlayer.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
-        Set setFormatPlayer = mapFormatPlayer.keySet();
-        if (mapFormatPlayer.size() == 2) {
-            for(Iterator iter = setFormatPlayer.iterator(); iter.hasNext();)
-            {
-                int key = Integer.parseInt(iter.next().toString());
-                long value = mapFormatPlayer.get(key);
-                if (value == 3) {
-                    return key;
-                }
-            }
-        }
-        return 0;
-    };
+    BiFunction<List<Integer>, List<Poker>, Integer> getFullHouseKey = (formatPlayer, player) -> getMaxKey(formatPlayer, 2, 3);
 
     // Flush
-    BiFunction<List<Integer>, List<Poker>, Integer> getFlushKey = (formatPlayer, player) -> {
-        if (isFlushList(player)) {
-            return formatPlayer.get(0);
-        }
-        return 0;
-    };
+    BiFunction<List<Integer>, List<Poker>, Integer> getFlushKey = (formatPlayer, player) -> isFlushList(player) ? formatPlayer.get(0) : 0;
 
     // Straight
-    BiFunction<List<Integer>, List<Poker>, Integer> getStraightKey = (formatPlayer, player) -> {
-        if (isContinusList(formatPlayer)) {
-            return formatPlayer.get(0);
-        }
-        return 0;
-    };
+    BiFunction<List<Integer>, List<Poker>, Integer> getStraightKey = (formatPlayer, player) -> isContinusList(formatPlayer) ? formatPlayer.get(0) : 0;
 
     // Three Of A Kind
-    BiFunction<List<Integer>, List<Poker>, Integer> getThreeOfAKindKey = (formatPlayer, player) -> {
-        Map<Integer, Long> mapFormatPlayer = formatPlayer.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
-        Set setFormatPlayer = mapFormatPlayer.keySet();
-        if (mapFormatPlayer.size() == 3) {
-            for(Iterator iter = setFormatPlayer.iterator(); iter.hasNext();)
-            {
-                int key = Integer.parseInt(iter.next().toString());
-                long value = mapFormatPlayer.get(key);
-                if (value == 3) {
-                    return key;
-                }
-            }
-        }
-        return 0;
-    };
+    BiFunction<List<Integer>, List<Poker>, Integer> getThreeOfAKindKey = (formatPlayer, player) -> getMaxKey(formatPlayer, 3, 3);
 
     // Two Pair
-    BiFunction<List<Integer>, List<Poker>, Integer> getTwoPairKey = (formatPlayer, player) -> {
-        int maxKey = 0;
-        Map<Integer, Long> mapFormatPlayer = formatPlayer.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
-        Set setFormatPlayer = mapFormatPlayer.keySet();
-        if (mapFormatPlayer.size() == 3) {
-            for(Iterator iter = setFormatPlayer.iterator(); iter.hasNext();)
-            {
-                int key = Integer.parseInt(iter.next().toString());
-                long value = mapFormatPlayer.get(key);
-                if (value == 2) {
-                    maxKey = key;
-                }
-            }
-        }
-        return maxKey;
-    };
+    BiFunction<List<Integer>, List<Poker>, Integer> getTwoPairKey = (formatPlayer, player) -> getMaxKey(formatPlayer, 3, 2);
 
     // Pair
-    BiFunction<List<Integer>, List<Poker>, Integer> getPairKey = (formatPlayer, player) -> {
-        int maxKey = 0;
-        Map<Integer, Long> mapFormatPlayer = formatPlayer.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
-        Set setFormatPlayer = mapFormatPlayer.keySet();
-        if (mapFormatPlayer.size() == 4) {
-            for(Iterator iter = setFormatPlayer.iterator(); iter.hasNext();)
-            {
-                int key = Integer.parseInt(iter.next().toString());
-                long value = mapFormatPlayer.get(key);
-                if (value == 2) {
-                    maxKey = key;
-                }
-            }
-        }
-        return maxKey;
-    };
+    BiFunction<List<Integer>, List<Poker>, Integer> getPairKey = (formatPlayer, player) -> getMaxKey(formatPlayer, 4, 2);
 
     // High Card
     private List<Poker> getHighCard(List<Integer> formatPlayer1, List<Integer> formatPlayer2, List<Poker> player1, List<Poker> player2) {
@@ -187,6 +95,23 @@ public class PokerHandler {
             }
         }
         return null;
+    }
+
+    static int getMaxKey(List<Integer> formatPlayer, int mapFormatPlayerSize, int count) {
+        int maxKey = 0;
+        Map<Integer, Long> mapFormatPlayer = formatPlayer.stream().collect(Collectors.groupingBy(p -> p,Collectors.counting()));
+        Set setFormatPlayer = mapFormatPlayer.keySet();
+        if (mapFormatPlayer.size() == mapFormatPlayerSize) {
+            for(Iterator iter = setFormatPlayer.iterator(); iter.hasNext();)
+            {
+                int key = Integer.parseInt(iter.next().toString());
+                long value = mapFormatPlayer.get(key);
+                if (value == count) {
+                    maxKey = key;
+                }
+            }
+        }
+        return maxKey;
     }
 
     static boolean isContinusList(List<Integer> list) {
