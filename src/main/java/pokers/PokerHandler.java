@@ -57,12 +57,7 @@ public class PokerHandler {
     }
 
     // Straight flush
-    BiFunction<List<Integer>, List<Poker>, Integer> getStraightFlushKey = (formatPlayer, player) -> {
-        if (isContinusList(formatPlayer) && isFlushList(player)) {
-            return formatPlayer.get(0);
-        }
-        return 0;
-    };
+    BiFunction<List<Integer>, List<Poker>, Integer> getStraightFlushKey = (formatPlayer, player) -> isContinusList(formatPlayer) && isFlushList(player) ? formatPlayer.get(0) : 0;
 
     // Four of kind
     BiFunction<List<Integer>, List<Poker>, Integer> getFourOfKindKey = (formatPlayer, player) -> getMaxKey(formatPlayer, 2, 4);
